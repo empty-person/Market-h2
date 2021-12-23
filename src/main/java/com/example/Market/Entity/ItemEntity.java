@@ -1,7 +1,10 @@
 package com.example.Market.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class ItemEntity {
@@ -9,6 +12,11 @@ public class ItemEntity {
     @Id
     private String name;
     private String price;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "itemId")
+    private List<ItemList> itemList;
+
 
     public ItemEntity() {
     }
@@ -28,4 +36,13 @@ public class ItemEntity {
     public void setPrice(String price) {
         this.price = price;
     }
+
+    public List<ItemList> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<ItemList> itemList) {
+        this.itemList = itemList;
+    }
 }
+

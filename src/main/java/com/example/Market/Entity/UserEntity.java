@@ -1,10 +1,11 @@
 package com.example.Market.Entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class UserEntity {
@@ -12,10 +13,16 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
     private String money;
-
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ownerId")
+    private BasketEntity basket;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<OrderHistoryEntity> orderHistoryEntities;
 
     public UserEntity() {
     }
@@ -51,4 +58,24 @@ public class UserEntity {
     public void setMoney(String money) {
         this.money = money;
     }
+
+    public BasketEntity getBasket() {
+        return basket;
+    }
+
+    public void setBasket(BasketEntity basket) {
+        this.basket = basket;
+    }
+
+    public List<OrderHistoryEntity> getOrderHistoryEntities() {
+        return orderHistoryEntities;
+    }
+
+    public void setOrderHistoryEntities(List<OrderHistoryEntity> orderHistoryEntities) {
+        this.orderHistoryEntities = orderHistoryEntities;
+    }
+//    @Override
+//    public String toString() {
+//        return super.toString();
+//    }
 }

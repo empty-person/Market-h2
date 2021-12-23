@@ -4,6 +4,7 @@ package com.example.Market.Service;
 import com.example.Market.Entity.UserEntity;
 import com.example.Market.Exception.UserAlreadyExistException;
 import com.example.Market.Exception.UserNotFoundException;
+import com.example.Market.Helper.Helper;
 import com.example.Market.Model.User;
 import com.example.Market.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,24 +19,33 @@ public class UserService {
 
 
     public UserEntity registration(UserEntity userEntity) throws UserAlreadyExistException {
-        if (!isNumeric(userEntity.getMoney())){
+        if (!isNumeric(userEntity.getMoney())) {
             throw new IllegalArgumentException("Не является цифрой");
         }
         if (userRepo.findByUsername(userEntity.getUsername()) != null) {
             throw new UserAlreadyExistException("Пользователь с таким логином уже существует");
         }
-        userEntity.setMoney(userEntity.getMoney()+"$");
+        userEntity.setMoney(userEntity.getMoney() + "$");
         return userRepo.save(userEntity);
 
     }
 
     public User getUserById(Long id) throws UserNotFoundException {
-        UserEntity userEntity = userRepo.findById(id).orElse(null);
-        if (userEntity == null) {
-            throw new UserNotFoundException("Пользователь с таким айди не был найден");
-        }
+        if (id == null) {
+            UserEntity byUsername = userRepo.findByUsername(Helper.getAuthenticatedUserLogin());
+            if (byUsername != null) {
+                return User.toModel(byUsername);
+            } else {
+                throw new UserNotFoundException("Пользователь с таким айди не был найден");
+            }
+        } else {
+            UserEntity userEntity = userRepo.findById(id).orElse(null);
+            if (userEntity == null) {
+                throw new UserNotFoundException("Пользователь с таким айди не был найден");
+            }
 
-        return User.toModel(userEntity);
+            return User.toModel(userEntity);
+        }
     }
 
     public Iterable<User> getAllUsers() {
