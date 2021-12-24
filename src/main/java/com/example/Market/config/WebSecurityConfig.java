@@ -3,6 +3,7 @@ package com.example.Market.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                        .antMatchers("/").permitAll()
+                        .antMatchers("/", "/user", "/basket/add", "/item", "/item/all").permitAll()
                         .anyRequest().authenticated()
                 .and()
                         .formLogin()
@@ -33,7 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                 .and()
                         .logout()
-                        .permitAll();
+                        .permitAll()
+                .and().csrf().disable();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .usersByUsernameQuery("select username, password, 'true' from user_entity where username=?")
-                .authoritiesByUsernameQuery("select username, 'USER' from user_entity where username=?");
+                .usersByUsernameQuery("select username, password, 'true' from user where username=?")
+                .authoritiesByUsernameQuery("select username, 'USER' from user where username=?");
     }
 }

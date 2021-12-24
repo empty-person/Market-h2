@@ -6,6 +6,7 @@ import com.example.Market.Entity.ItemList;
 import com.example.Market.Entity.UserEntity;
 import com.example.Market.Exception.BasketNotFoundException;
 import com.example.Market.Exception.ItemNotFoundException;
+import com.example.Market.Exception.UserNotFoundException;
 import com.example.Market.Helper.Helper;
 import com.example.Market.Model.User;
 import com.example.Market.Repository.BasketRepo;
@@ -71,7 +72,7 @@ public class BasketService {
 
     }
 
-    public BasketEntity addItemToBasket(String itemName, Long quantity, String userName) throws ItemNotFoundException {
+    public BasketEntity addItemToBasket(String itemName, Long quantity, String userName) throws ItemNotFoundException, UserNotFoundException {
 
         if (quantity == null) {
             quantity = 1L;
@@ -83,6 +84,10 @@ public class BasketService {
         }
 
         UserEntity userEntity = userRepo.findByUsername(userName);
+
+        if (userEntity == null) {
+            throw new UserNotFoundException("Пользователь не существует");
+        }
         BasketEntity basketById = basketRepo.findByOwnerId(userEntity);
 
         if (basketById != null) {
@@ -96,8 +101,12 @@ public class BasketService {
 
 
         BasketEntity basket = new BasketEntity();
-        ItemList itemList = new ItemList();
 
+        ItemList itemList = new ItemList();
+        System.out.println("_________________");
+        System.out.println(userName);
+        System.out.println(userEntity);
+        System.out.println("_________________");
         basket.setOwnerId(userEntity);
 
 
@@ -156,6 +165,7 @@ public class BasketService {
     public BasketEntity getBasketByUserName(String userName) throws BasketNotFoundException {
 
         return basketRepo.findByOwnerId(userRepo.findByUsername(userName));
+
 
     }
 

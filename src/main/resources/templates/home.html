@@ -9,5 +9,12 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+
+
+<ul th:each="item : ${test}">
+    <li style="display: inline" th:text="${item.key}"></li>
+    <li style="display: inline" th:text="${item.value}"></li>
+</ul>
+
 </body>
 </html>

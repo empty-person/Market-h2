@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "item_list")
 public class ItemList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +16,8 @@ public class ItemList {
     private ItemEntity itemId;
 
     private Long quantity;
-
     private String totalPrice;
+
     @JsonBackReference
     @JoinColumn(name = "basket_id")
     @ManyToOne
