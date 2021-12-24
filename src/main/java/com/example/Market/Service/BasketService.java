@@ -103,10 +103,7 @@ public class BasketService {
         BasketEntity basket = new BasketEntity();
 
         ItemList itemList = new ItemList();
-        System.out.println("_________________");
-        System.out.println(userName);
-        System.out.println(userEntity);
-        System.out.println("_________________");
+
         basket.setOwnerId(userEntity);
 
 
@@ -121,8 +118,7 @@ public class BasketService {
         itemListList.add(itemList);
         save.setItemList(itemListList);
 
-        System.out.println(basket.getTotalPrice());
-        System.out.println(save.getTotalPrice());
+
         return basketRepo.save(save);
     }
 

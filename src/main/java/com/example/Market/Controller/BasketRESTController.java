@@ -15,11 +15,12 @@ public class BasketRESTController {
     BasketService basketService;
 
     @GetMapping()
-    public ResponseEntity getBasketByUserId() {
+    public ResponseEntity getBasketByUserName(@RequestBody(required = false) Cringe cringe) {
         try { //
-            System.out.println(Helper.getAuthenticatedUserLogin());
-            return ResponseEntity.ok(basketService.getBasketByUserName(Helper.getAuthenticatedUserLogin()));
+            return ResponseEntity.ok(basketService.getBasketByUserName(cringe.getUserName()));
         } catch (BasketNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (NullPointerException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -33,7 +34,7 @@ public class BasketRESTController {
         String userName = cringe.getUserName();
         Long quantity = cringe.getQuantity();
         if (userName == null) {
-            userName = Helper.getAuthenticatedUserLogin();
+            userName = Helper.getDefaultGeneratedUserLogin();
         }
         try {
             return ResponseEntity.ok(basketService.addItemToBasket(itemName, quantity, userName));
@@ -71,7 +72,7 @@ public class BasketRESTController {
         Long quantity = cringe.getQuantity();
 
         if (userName == null) {
-            userName = Helper.getAuthenticatedUserLogin();
+            userName = Helper.getDefaultGeneratedUserLogin();
         }
 
 

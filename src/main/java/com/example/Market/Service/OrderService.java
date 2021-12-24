@@ -43,7 +43,7 @@ public class OrderService {
         }
         BasketEntity basket = userEntity.getBasket();
         if (basket == null) {
-            throw new BasketNotFoundException("Корзина пустая.");
+            throw new BasketNotFoundException("Корзина пустая. ");
         }
 
         List<ItemList> itemLists = basket.getItemList();

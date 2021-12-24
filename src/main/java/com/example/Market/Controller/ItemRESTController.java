@@ -21,8 +21,7 @@ public class ItemRESTController {
      * Retrieves item from database by Query Param 'id'
      */
     @GetMapping
-    public ResponseEntity getItem(@RequestParam(value = "name", required = false) String name) {
-
+    public ResponseEntity getItem(@RequestBody(required = false) String name) {
         try {
             if (name==null){
                 return ResponseEntity.badRequest().body(" ");
@@ -43,6 +42,8 @@ public class ItemRESTController {
         } catch (ItemAlreadyExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage() + "\n " + item.getName() + " " + item.getPrice());
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

@@ -10,6 +10,7 @@ import com.example.Market.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.example.Market.Helper.Helper.getNumeric;
 import static com.example.Market.Helper.Helper.isNumeric;
 
 @Service
@@ -20,19 +21,21 @@ public class UserService {
 
     public UserEntity registration(UserEntity userEntity) throws UserAlreadyExistException {
         if (!isNumeric(userEntity.getMoney())) {
-            throw new IllegalArgumentException("Не является цифрой");
+            throw new IllegalArgumentException("Значение денег не является цифрой");
+        }if (Helper.isNumeric(userEntity.getUsername())){
+            throw new IllegalArgumentException("Логин пользователя не может состоять только из цифр ");
         }
         if (userRepo.findByUsername(userEntity.getUsername()) != null) {
             throw new UserAlreadyExistException("Пользователь с таким логином уже существует");
         }
-        userEntity.setMoney(userEntity.getMoney() + "$");
+        userEntity.setMoney(getNumeric(userEntity.getMoney()) + "$");
         return userRepo.save(userEntity);
-
     }
 
     public User getUserById(Long id) throws UserNotFoundException {
+
         if (id == null) {
-            UserEntity byUsername = userRepo.findByUsername(Helper.getAuthenticatedUserLogin());
+            UserEntity byUsername = userRepo.findByUsername(Helper.getDefaultGeneratedUserLogin());
             if (byUsername != null) {
                 return User.toModel(byUsername);
             } else {

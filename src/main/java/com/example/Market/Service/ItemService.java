@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.example.Market.Helper.Helper.isNumeric;
+import static com.example.Market.Helper.Helper.isStringContainsNumbers;
 
 @Service
 public class ItemService {
@@ -25,6 +26,8 @@ public class ItemService {
     public ItemEntity createItem(ItemEntity itemEntity) throws ItemAlreadyExistException {
         if (!isNumeric(itemEntity.getPrice())){
             throw new IllegalArgumentException("Не является цифрой");
+        }if (isStringContainsNumbers(itemEntity.getName())){
+            throw new IllegalArgumentException("Название не может содержать цифру");
         }
         if (itemRepo.findByName(itemEntity.getName()) != null) {
             throw new ItemAlreadyExistException("Предмет с таким названием уже существует");
