@@ -1,9 +1,7 @@
 package com.example.Market.Helper;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Helper {
-
 
 
     public static boolean isNumeric(String strNum) {
@@ -20,7 +18,7 @@ public class Helper {
 
     public static String getAuthenticatedUserLogin() {
 
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return "username1";
     }
 
     public static Double getPriceAsNumeric(String str) {
