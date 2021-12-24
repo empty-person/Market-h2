@@ -62,8 +62,8 @@
   Post request
   http://localhost:8080/basket/add {
 +   "itemName":"itemName",
--   "userName":"userName1",                                (default value = username1)
--   "quantity":2                                           (default value = 1)
+#   "userName":"userName1",                                (default value = username1)
+#   "quantity":2                                           (default value = 1)
     }
 ```
 
@@ -72,8 +72,8 @@
   Post request
   http://localhost:8080/basket/remove {
 +   "itemName":"itemName12",
--   "quantity":3,                                          (default value = 1)
--   "userName":"dssfg"                                     (default value = username1)
+#   "quantity":3,                                          (default value = 1)
+#   "userName":"dssfg"                                     (default value = username1)
     }
 ```
 
@@ -89,7 +89,7 @@
 ```diff
   Post request
   http://localhost:8080/order/complete {
-+   "userName":"username21"
+#   "userName":"username21"                                     (default value = username1)
     }
 ```
 
@@ -97,7 +97,7 @@
 ```diff
   Post request
   http://localhost:8080/order/complete {
-+   "userName":"username21"
+#   "userName":"username21"                                     (default value = username1)
     }
 ```
 
