@@ -1,4 +1,5 @@
 # Market
+java -jar Market-0.0.1-SNAPSHOT.jar
 
 
 ## Endpoint URLs for each business scenario with needed body
