@@ -24,6 +24,7 @@ public class UserRESTController {
      */
     @GetMapping(value = {"", "/{id}"})
     public ResponseEntity getUser(@PathVariable(value = "id", required = false) Object id) {
+
         if (!Helper.isNumeric(String.valueOf(id))){
             return ResponseEntity.badRequest().body("Необходима цифра в качестве аргумента");
         }
